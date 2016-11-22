@@ -7,25 +7,55 @@ def main():
     if(databasepath == ""):
         databasepath = "MiniProject2-InputExample.db"
     connection = sql.connectDatabase(databasepath);
-    results = getIndexedTables(connection)
     
-    printTables(results)
     while True:
-        selectedindex = raw_input("Select a schema you want to use as an input [or press 'q' to quit]: ")
-        if (selectedindex == 'q'):
+        print("1. Read input schema.")
+        print("2. Compute attribute closure of a set of attributes")
+        print("3. Determine whether two sets of functional dependencies are equivalent.")
+        print("4. Quit")
+        selectedindex = raw_input("What do you want to do? : ")
+        if (selectedindex == '1'):
+            readInputSchema(connection)
+        elif (selectedindex == '2'):
+            # TODO:
+            print("NOT IMPLEMENTED")
+        elif (selectedindex == "3"):
+            # TODO:
+            print("Not IMPLEMENTED")
+        elif (selectedindex == "4"):
+            print("Goodbye...")
             break;
-        elif (selectedindex not in results.keys()):
-            print("Schema not found. Please input correct index.")
         else:
-            selectedname = results[selectedindex] 
-            properties, functionaldependencies = getSchemaInformation(connection, selectedname)
-            
-            while True:
-                print("1. Read input schema.")
-                print("2. Synthesize 3NF schema")
-                print("3. Decompose table into BCNF")
-                print("4. Compute attribute closure of a set of attributes")
+            print("Can't find correct action. Please select another.")
+            print("1. Read input schema.")
+            print("2. Compute attribute closure of a set of attributes")
+            print("3. Determine whether two sets of functional dependencies are equivalent.")
+            print("4. Quit")
 
+def readInputSchema(connection):
+    results = getIndexedTables(connection)
+    printTables(results)
+    selectedindex = raw_input("Select a schema you want to use as an input [or press 'q' to quit]: ")
+    if (selectedindex not in results.keys()):
+        print("Schema not found. Please input correct index.")
+    else:
+        selectedname = results[selectedindex] 
+        properties, functionaldependencies = getSchemaInformation(connection, selectedname)
+        
+        while True:
+            print("1. Synthesize 3NF schema.")
+            print("2. Decompose the input table into BCNF.")
+            print("3. Select a different input schema.")
+            
+            selectedindex = raw_input("What do you want to do? : ")
+            if (selectedindex == '1'):
+                # TODO:
+                print("Not implemented")
+            elif (selectedindex == '2'):
+                # TODO:
+                print("Not implemented")
+            elif (selectedindex == '3'):
+                return;
 def getIndexedTables(connection):
     query = """SELECT name, sql FROM SQLITE_MASTER WHERE name LIKE 'INPUT_%' AND name NOT LIKE 'INPUT_FD%';"""
     results = connection.executeQuery(query)
