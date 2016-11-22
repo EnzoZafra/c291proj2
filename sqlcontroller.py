@@ -52,7 +52,7 @@ def getProperties(connection, tablename):
 # Returns the functional dependencies from a table in the form [ [LHS1, RHS1] , [LHS2, RHS2] , [LHS3, RHS3] ]
 def getFunctionalDependencies(connection, tablename):
     functionaldependencies = []
-    name = "Input_FDs_" + tablename 
+    name = "Input_" + tablename 
     FDquery = """SELECT * FROM ?"""
     unparsed = connection.executeQuery(FDquery.replace("?", name))
     for item in unparsed:

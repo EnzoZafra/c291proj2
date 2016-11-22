@@ -1,7 +1,6 @@
-import sqlite3
 import sqlcontroller as sql
 import re
-from __main__ import name
+import helper
 
 def main():
     databasepath = raw_input("Enter the database name: ")
@@ -18,8 +17,7 @@ def main():
         if (selectedindex == '1'):
             readInputSchema(connection)
         elif (selectedindex == '2'):
-            # TODO:
-            print("NOT IMPLEMENTED")
+            helper.functionality_one(connection)
         elif (selectedindex == "3"):
             # TODO:
             print("Not IMPLEMENTED")
@@ -64,7 +62,7 @@ def printTables(indexedtables):
 
 def getSchemaInformation(connection, selectedname):
     name = regexTableName(selectedname)
-    functionaldependencies = sql.getFunctionalDependencies(connection, name)
+    functionaldependencies = sql.getFunctionalDependencies(connection, "FDs_" + name)
     properties = sql.getProperties(connection, name)
     print(properties)
     print(functionaldependencies)
