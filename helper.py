@@ -42,14 +42,19 @@ def fdTest(memberCandidate, list_of_fds):
     return set(memberCandidate[1]).issubset(lhsClosure)
     
 def functionality_one(connection):
-    attribute_input = raw_input("Please enter the list of attributes [i.e = 'A,B,C']: ")
-    attribute_list = attribute_input.split(',')  
+    attribute_input = raw_input("Please enter the list of attributes [i.e = 'A,B,C']: ").upper()
+    attribute_list = attribute_input.replace(' ','').split(',')
+    if (not checkAllAttributesSingle(attribute_list)):
+        print("There is an error with the list of attributes you input.")
+        return
+    
     tablenames_input = raw_input("Please enter the list of table names to get the functional dependencies from: ")
     print("")
     tablenames_list = tablenames_input.replace(' ', '').split(',')
     if(not checknamesindatabase(connection, tablenames_list)):
         print("One or more table names are not in the database.")
         return
+    
     combined_fds = getMultipleFDs(connection, tablenames_list)
     closure = computeClosure(attribute_list, combined_fds)
     print("The closure " + ''.join(attribute_list).replace('\'','') + "+ is " + ''.join(closure).replace('\'',''))
@@ -64,6 +69,12 @@ def functionality_two(connection):
         print("The two sets of functional dependencies are equal!")
     else:
         print("The two sets of functional dependencies are NOT equal!")
+
+def checkAllAttributesSingle(attributelist):
+    for attribute in attributelist:
+        if (not len(attribute) == 1):
+            return False
+    return True
     
 def namestolist(names):
     outputlist = names.replace(' ', '').split(',')
