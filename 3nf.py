@@ -1,21 +1,6 @@
 from helper import computeClosure
 from main import splitProperties
-from macpath import split
 from timeit import itertools
-T = [["ABH","CK"],["A","D"],["C","E"],["BGH","F"],["F","AD"],["E","F"],["BH","E"]]
-Attribute_list = ['A','B','C','D','E','F','G','H','K'] # The Fd u want to check
-empty = []
-T_2 =[["AB","C"],["AB","D"],["C","A"],["C","D"],["D","A"],["D","E"],["B","F"]]
-#===============================================================================
-# {A, B, H}+ = {A, B, C, D, E, F, H, K}
-# {A, D}+ = {A, D}
-# {C, D}+ = {A, C, D, E, F}
-# {B, G, H}+ = {A, B, C, D, E, F, G, H, K} <--- Composite minimum candidate key
-# {F}+ = {A, D, F}
-# {E}+ = {A, D, E, F}
-# {B, H}+ = {A, B, C, D, E, F, H, K}
-#===============================================================================
-
 
 def Extraneous_attributes(FD_element,FD):
     FD_Left_side = FD_element[0]
@@ -64,7 +49,6 @@ def redundant(Single_Fundalmental,New_FD,Original_FD):
 
 def minimal_cover(Fundalmental_dep):
     Temp_Fundalmental = []
-    closure_array = []
     split_Fundalmental = []
     for Split in Fundalmental_dep:
         split_Fundalmental.append((splitProperties(Split)))
@@ -97,14 +81,10 @@ def minimal_cover(Fundalmental_dep):
 #         print("The FD im testing is : " , FD)
         if(count_left_hand_side(FD[0],Temp_Fundalmental) > 1):
 #             print(" ")
-            result = redundant(FD,Temp_Fundalmental,split_Fundalmental)
+            redundant(FD,Temp_Fundalmental,split_Fundalmental)
 #             print(result)
 #     print(Temp_Fundalmental)
     return(Temp_Fundalmental)
-
-
-print(minimal_cover(T))
-print(minimal_cover(T_2))
 
 def ThreeNF_Decomp(FD):
     U_sets = minimal_cover(FD)
@@ -113,4 +93,23 @@ def ThreeNF_Decomp(FD):
 #     for FD in U_sets:
 #         print(FD)
     
-ThreeNF_Decomp(T)
+if  __name__ == "__main__":
+    # UNIT TESTING
+        #===============================================================================
+    # {A, B, H}+ = {A, B, C, D, E, F, H, K}
+    # {A, D}+ = {A, D}
+    # {C, D}+ = {A, C, D, E, F}
+    # {B, G, H}+ = {A, B, C, D, E, F, G, H, K} <--- Composite minimum candidate key
+    # {F}+ = {A, D, F}
+    # {E}+ = {A, D, E, F}
+    # {B, H}+ = {A, B, C, D, E, F, H, K}
+    #===============================================================================
+    
+    T = [["ABH","CK"],["A","D"],["C","E"],["BGH","F"],["F","AD"],["E","F"],["BH","E"]]
+    Attribute_list = ['A','B','C','D','E','F','G','H','K'] # The Fd u want to check
+    empty = []
+    T_2 =[["AB","C"],["AB","D"],["C","A"],["C","D"],["D","A"],["D","E"],["B","F"]]
+    
+    print(minimal_cover(T))
+    print(minimal_cover(T_2))
+    ThreeNF_Decomp(T)
