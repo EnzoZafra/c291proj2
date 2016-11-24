@@ -1,7 +1,6 @@
 import sqlcontroller as sql
 import re
 import helper
-from pygments.lexers import functional
 
 def main():
     databasepath = raw_input("Enter the database name: ")
@@ -55,11 +54,13 @@ def readInputSchema(connection):
             if (selectedindex == '1'):
                 # TODO:
                 print("Not implemented")
+                return;
             elif (selectedindex == '2'):
                 # TODO:
                 print("Not implemented")
-            elif (selectedindex == '3'):
                 return;
+            elif (selectedindex == '3'):
+                readInputSchema(connection);
 
 def printInformation(attributes, functionaldependencies):
     print("The selected schema has the following information: ")

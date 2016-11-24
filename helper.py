@@ -28,7 +28,6 @@ def getMultipleFDs(connection, list_names):
 # Checks if two lists of functional dependencies are equal.
 def checkEqual(fd1, fd2):
     for fd in fd1:
-        print(fd)
         if (not fdTest(fd, fd2)):
             return False
     for fd in fd2:
