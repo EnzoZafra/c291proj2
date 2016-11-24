@@ -1,10 +1,11 @@
-import sqlite3
 import sqlcontroller as sql
 import re
-from __main__ import name
+import helper
+from pygments.lexers import functional
 
 def main():
     databasepath = raw_input("Enter the database name: ")
+    print("")
     if(databasepath == ""):
         databasepath = "MiniProject2-InputExample.db"
     connection = sql.connectDatabase(databasepath);
@@ -15,14 +16,13 @@ def main():
         print("3. Determine whether two sets of functional dependencies are equivalent.")
         print("4. Quit")
         selectedindex = raw_input("What do you want to do? : ")
+        print("")
         if (selectedindex == '1'):
             readInputSchema(connection)
         elif (selectedindex == '2'):
-            # TODO:
-            print("NOT IMPLEMENTED")
+            helper.functionality_one(connection)
         elif (selectedindex == "3"):
-            # TODO:
-            print("Not IMPLEMENTED")
+            helper.functionality_two(connection)
         elif (selectedindex == "4"):
             print("Goodbye...")
             break;
@@ -37,11 +37,13 @@ def readInputSchema(connection):
     results = sql.getIndexedTables(connection)
     printTables(results)
     selectedindex = raw_input("Select a schema you want to use as an input [or press 'q' to quit]: ")
+    print("")
     if (selectedindex not in results.keys()):
         print("Schema not found. Please input correct index.")
     else:
         selectedname = results[selectedindex] 
-        properties, functionaldependencies = getSchemaInformation(connection, selectedname)
+        attributes, functionaldependencies = getSchemaInformation(connection, selectedname)
+        printInformation(attributes, functionaldependencies)
         
         while True:
             print("1. Synthesize 3NF schema.")
@@ -49,6 +51,7 @@ def readInputSchema(connection):
             print("3. Select a different input schema.")
             
             selectedindex = raw_input("What do you want to do? : ")
+            print("")
             if (selectedindex == '1'):
                 # TODO:
                 print("Not implemented")
@@ -58,18 +61,26 @@ def readInputSchema(connection):
             elif (selectedindex == '3'):
                 return;
 
+def printInformation(attributes, functionaldependencies):
+    print("The selected schema has the following information: ")
+    print("Attributes: " + ', '.join(attributes))
+    fdstring = ""
+    for fd in functionaldependencies:
+        fdstring += fd[0] + " --> " + fd[1]
+        if (fd is not functionaldependencies[len(functionaldependencies)-1]):
+            fdstring += ", "
+    print("Functional dependencies: " + fdstring)
+    print("")
+    
 def printTables(indexedtables):
     for key, value in indexedtables.iteritems():
         print(key + " -- " + value)
 
 def getSchemaInformation(connection, selectedname):
     name = regexTableName(selectedname)
-    functionaldependencies = sql.getFunctionalDependencies(connection, name)
-    properties = sql.getProperties(connection, name)
-    print(properties)
-    print(functionaldependencies)
-    print(splitProperties(functionaldependencies[0]))
-    return properties, functionaldependencies
+    functionaldependencies = sql.getFunctionalDependencies(connection, "FDs_" + name)
+    attributes = sql.getAttributes(connection, name)
+    return attributes, functionaldependencies
 
 def regexTableName(tablename):
     match = re.search("Input_(.*)", tablename)

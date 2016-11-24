@@ -43,7 +43,7 @@ def getValues(connection, tablename):
     values = connection.executeQuery(FDquery.replace("?", name))
     return values
 
-def getProperties(connection, tablename):
+def getAttributes(connection, tablename):
     name = "Input_" + tablename 
     FDquery = """SELECT * FROM ?"""
     values = connection.getkeys(FDquery.replace("?", name))
@@ -52,7 +52,7 @@ def getProperties(connection, tablename):
 # Returns the functional dependencies from a table in the form [ [LHS1, RHS1] , [LHS2, RHS2] , [LHS3, RHS3] ]
 def getFunctionalDependencies(connection, tablename):
     functionaldependencies = []
-    name = "Input_FDs_" + tablename 
+    name = "Input_" + tablename 
     FDquery = """SELECT * FROM ?"""
     unparsed = connection.executeQuery(FDquery.replace("?", name))
     for item in unparsed:
