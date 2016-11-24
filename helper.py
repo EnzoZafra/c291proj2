@@ -49,7 +49,7 @@ def functionality_one(connection):
     
     tablenames_input = raw_input("Please enter the list of table names to get the functional dependencies from: ")
     print("")
-    tablenames_list = tablenames_input.replace(' ', '').split(',')
+    tablenames_list = namestolist(tablenames_input)
     if(not checknamesindatabase(connection, tablenames_list)):
         print("One or more table names are not in the database.")
         return
@@ -60,7 +60,15 @@ def functionality_one(connection):
 
 def functionality_two(connection):
     fd1names = namestolist(raw_input("Please enter one or more table names to get the functional dependencies set 1 (seperated by comma): "))
+    if(not checknamesindatabase(connection, fd1names)):
+        print("One or more table names are not in the database.")
+        return
+    
     fd2names = namestolist(raw_input("Please enter one or more table names to get the functional dependencies set 2 (seperated by comma): "))
+    if(not checknamesindatabase(connection, fd2names)):
+        print("One or more table names are not in the database.")
+        return
+    
     print("")
     fd1 = getMultipleFDs(connection, fd1names)
     fd2 = getMultipleFDs(connection, fd2names)

@@ -3,8 +3,8 @@ import main
 import sqlcontroller as controller
 
 #attribute_list = ['A','B']
-   # combined_fds = [ [['A','B'],['C']], [['A'],['D']], [['D'],['E']],[['A','C'],['B']] ]
-   #computeClosure(attribute_list, combined_fds):
+# combined_fds = [ [['A','B'],['C']], [['A'],['D']], [['D'],['E']],[['A','C'],['B']] ]
+#computeClosure(attribute_list, combined_fds):
 
 
 #===============================================================================

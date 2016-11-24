@@ -35,9 +35,11 @@ def main():
 def readInputSchema(connection):
     results = sql.getIndexedTables(connection)
     printTables(results)
-    selectedindex = raw_input("Select a schema you want to use as an input [or press 'q' to quit]: ")
+    selectedindex = raw_input("Select a schema you want to use as an input [or press 'b' to go back]: ")
     print("")
-    if (selectedindex not in results.keys()):
+    if (selectedindex.lower() == "b"):
+        return;
+    elif (selectedindex not in results.keys()):
         print("Schema not found. Please input correct index.")
     else:
         selectedname = results[selectedindex] 
@@ -61,6 +63,7 @@ def readInputSchema(connection):
                 return;
             elif (selectedindex == '3'):
                 readInputSchema(connection);
+                return;
 
 def printInformation(attributes, functionaldependencies):
     print("The selected schema has the following information: ")
