@@ -43,7 +43,7 @@ def getValues(connection, tablename):
     values = connection.executeQuery(FDquery.replace("?", name))
     return values
 
-def getProperties(connection, tablename):
+def getAttributes(connection, tablename):
     name = "Input_" + tablename 
     FDquery = """SELECT * FROM ?"""
     values = connection.getkeys(FDquery.replace("?", name))
