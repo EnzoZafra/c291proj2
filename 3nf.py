@@ -71,8 +71,8 @@ def minimal_cover(Fundalmental_dep):
 #     print("the split FD: " ,split_Fundalmental)
     
     #Closure of the original 
-    for LHS_FD in split_Fundalmental:
-        closure_array.append(computeClosure(LHS_FD[0],split_Fundalmental))
+#     for LHS_FD in split_Fundalmental:
+#         closure_array.append(computeClosure(LHS_FD[0],split_Fundalmental))
 #     print("The original closure is: " ,closure_array)
 
     Holder = []
@@ -109,7 +109,8 @@ print(minimal_cover(T_2))
 def ThreeNF_Decomp(FD):
     U_sets = minimal_cover(FD)
     print(U_sets)
-    for FD in U_sets:
-        print(FD)
+    
+#     for FD in U_sets:
+#         print(FD)
     
 ThreeNF_Decomp(T)
