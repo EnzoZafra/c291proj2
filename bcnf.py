@@ -42,7 +42,7 @@ def BCNT(attrList, funcDep):
             minimalKey = key
     print("Minimal Key is ", minimalKey)
     
-    print("Not in BCNF")
+    
     for atr in funcDep:
         if not (isBCNF(attrList, funcDep, atr[0])):
             
