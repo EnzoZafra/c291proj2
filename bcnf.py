@@ -28,7 +28,7 @@ def BCNT(attrList, funcDep):
     for FD in funcDep:
         if (isSuperKey(FD[0],funcDep,attrList)):
             superKey.append(FD[0])
-    
+    print("super:" , superKey)
     #Variable to hold the attribute Lists R1,R2,R3
     relation = []
     relation.append(attrList)
@@ -48,6 +48,7 @@ def BCNT(attrList, funcDep):
             
             #If the LHS of FD is not in BCNF, split
             if not (isBCNF(attrList, funcDep, fd[0])):
+                print("fd: ",fd)
                 newFDs.append(fd)
                 
                 relation.append([])
@@ -66,6 +67,16 @@ def BCNT(attrList, funcDep):
                         if attriRemoved in FD[1]:
 
                             FD[1].remove(attriRemoved)
+
+                for i in functDepend:
+
+                    for j in i[0]:
+
+                        if not set(j).issubset(relation[0]):
+
+                            functDepend.remove(i)
+                            break
+
                 #increment counter
                 splitCount += 1
     #To put relation and FD together as a dictionary
@@ -82,7 +93,7 @@ def BCNT(attrList, funcDep):
                 R["".join(table)] = FD
 #         print(R.get("".join(table)))
         if not R.get("".join(table),[]):
-
+            print("".join(table))
             R["".join(table)] = []
     print("orignial:", funcDep)
 #     for FD in newFDs:
@@ -95,24 +106,29 @@ def BCNT(attrList, funcDep):
 R = ['A','B','C','D','E','F','G','H']
 TR = [[['A','B','H'],['C']], [['A'],['D','E']],[['B','G','H'],['F']],[['F'],['A','D','H']],[['B','H'],['G','E']]]
 Z = [[['A','B'],['C']], [['A'],['D']], [['D'],['E']],[['A','C'],['B']]]
-#   [[['A','B'], ['C']], [['C'],['D']] ]
-Zatt = ['A','B',"C",'D','E']
-T = [["ABH","CK"],["A","D"],["C","E"],["BGH","F"],["F","AD"],["E","F"],["BH","E"]]
-BCNT(R,TR)
-BCNT(Zatt,Z)    
-Bank = ['B','C','A','N','L','M']
-BankFD = [[['B'],['A','C']],[['L'],['M','B']]]
-BCNT(Bank,BankFD)
-R = ['A','B','C','D','E','F','G','H','K']
-T = [[['A', 'B', 'H'], ['C', 'K']], [['A'], ['D']], [['C'], ['E']], [['B', 'G', 'H'], ['F']], [['F'], ['A', 'D']], [['E'], ['F']], [['B', 'H'], ['E']]]
-T1 = [[['B','H'],['E']],[['A', 'B', 'H'], ['C', 'K']], [['A'],['D']], [['E'],['F']],[['F'],['A']]]
-print("test",checkEqual(T,T1))
+# #   [[['A','B'], ['C']], [['C'],['D']] ]
+# Zatt = ['A','B',"C",'D','E']
+# T = [["ABH","CK"],["A","D"],["C","E"],["BGH","F"],["F","AD"],["E","F"],["BH","E"]]
+# BCNT(R,TR)
+# BCNT(Zatt,Z)    
+# Bank = ['B','C','A','N','L','M']
+# BankFD = [[['B'],['A','C']],[['L'],['M','B']]]
+# BCNT(Bank,BankFD)
+# R = ['A','B','C','D','E','F','G','H','K']
+# T = [[['A', 'B', 'H'], ['C', 'K']], [['A'], ['D']], [['C'], ['E']], [['B', 'G', 'H'], ['F']], [['F'], ['A', 'D']], [['E'], ['F']], [['B', 'H'], ['E']]]
+# T1 = [[['B','H'],['E']],[['A', 'B', 'H'], ['C', 'K']], [['A'],['D']], [['E'],['F']],[['F'],['A']]]
+R = ['A','B','C','D','E','F','G','H']
+T = [[['A', 'B', 'H'], ['C']], [['A'], ['D','E']], [['B', 'G', 'H'], ['F']], [['F'], ['A', 'D','H']], [['B', 'H'], ['G','E']]]
+# print("test",checkEqual(T,T1))
 BCNT(R,T)
 # print(checkEqual(T,T1))
-R = ['A','B','C','D']
-T = [[['A'],['B']],[['B'],['C']]]
-BCNT(R,T)
-print(checkEqual(T,T))
-R = ['A','B','C','F','G','H']
-T = [[['A','B','H'],['C']],[['B','G','H'],['F']],[['F'],['A','H']],[['B','H'],['G']]]
-BCNT(R,T)
+# R = ['A','B','C','D']
+# T = [[['A'],['B']],[['B'],['C']]]
+# R = ['A','B','C']
+# T = [[['A'],['B']],[['B'],['C']],[['C'],['B']]]
+
+# BCNT(R,T)
+# print(checkEqual(T,T))
+# R = ['A','B','C','F','G','H']
+# T = [[['A','B','H'],['C']],[['B','G','H'],['F']],[['F'],['A','H']],[['B','H'],['G']]]
+# BCNT(R,T)
