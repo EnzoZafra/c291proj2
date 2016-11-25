@@ -1,6 +1,8 @@
 import sqlcontroller as sql
 import re
 import helper
+import bcnf
+import threenf
 
 def main():
     databasepath = raw_input("Enter the database name: ")
@@ -43,7 +45,7 @@ def readInputSchema(connection):
         print("Schema not found. Please input correct index.")
     else:
         selectedname = results[selectedindex] 
-        attributes, functionaldependencies = getSchemaInformation(connection, selectedname)
+        attributes, functionaldependencies, name = getSchemaInformation(connection, selectedname)
         printInformation(attributes, functionaldependencies)
         
         while True:
@@ -54,19 +56,17 @@ def readInputSchema(connection):
             selectedindex = raw_input("What do you want to do? : ")
             print("")
             if (selectedindex == '1'):
-                # TODO:
-                print("Not implemented")
+                threenf.threenfInterface(connection, attributes, functionaldependencies, name)
                 return;
             elif (selectedindex == '2'):
-                # TODO:
-                print("Not implemented")
+                bcnf.BCNFInterface(connection, attributes, functionaldependencies, name )
                 return;
             elif (selectedindex == '3'):
                 readInputSchema(connection);
                 return;
 
 def printInformation(attributes, functionaldependencies):
-    print("The selected schema has the following information: ")
+    print("The selected schema has the following information: \n")
     print("Attributes: " + ', '.join(attributes))
     fdstring = ""
     for fd in functionaldependencies:
@@ -84,7 +84,7 @@ def getSchemaInformation(connection, selectedname):
     name = regexTableName(selectedname)
     functionaldependencies = sql.getFunctionalDependencies(connection, "Input_FDs_" + name)
     attributes = sql.getAttributes(connection, name)
-    return attributes, functionaldependencies
+    return attributes, functionaldependencies, name
 
 def regexTableName(tablename):
     match = re.search("(?:Input_|Output_)(.*)", tablename)

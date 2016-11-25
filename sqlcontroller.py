@@ -74,7 +74,6 @@ def createTables(connection, dictionary, name):
     # Get all attributes of the input table, and get their data type.
     inputtable = "Input_" + name
     olddatatypes = getDataTypes(connection, inputtable)
-    print(olddatatypes)
     
     for attributes, value in dictionary.iteritems():
         # Create the table names for the new output tables.
@@ -100,14 +99,15 @@ def createTables(connection, dictionary, name):
         createquery += ");"
         connection.insert(createquery)
         
-        # Create the FD table
-        createquery = "CREATE TABLE {} (LHS TEXT, RHS TEXT)".format(fdtablename)
-        connection.insert(createquery)
-        
         # Insert the FDs into the table. Only if there is an FD.
         if (len(value) > 0):
+            
+            # Create the FD table
+            createquery = "CREATE TABLE {} (LHS TEXT, RHS TEXT)".format(fdtablename)
+            connection.insert(createquery)
+        
             insertquery = """INSERT INTO {} VALUES (?,?)""".format(fdtablename)
-            insertparams = (','.join(value[0]),','.join(value[1]))
+            insertparams = (','.join(value[0][0]),','.join(value[0][1]))
             connection.insert(insertquery, insertparams)
 
 #Inputs: connection object, 
@@ -126,8 +126,6 @@ def moveData(connection, dictionary, name):
             if (not i == len(key_as_list)-1):
                 insertquery += ","
         insertquery += ")"
-        print(insertquery)
-        print(results)
         connection.executemany(insertquery, results)
     
 def getDataTypes(connection, tablename):
