@@ -202,10 +202,13 @@ if  __name__ == "__main__":
     Attribute_list_3 = ['A','B','C','D']
     T_2 =[["AB","C"],["AB","D"],["C","A"],["C","D"],["D","A"],["D","E"],["B","F"]]
     T_3 = [['A','B'],['C','D']]
+    Attribute_list_4 = ['A','B','C','D','E','F','G','H']
+    T_4 = [[['A', 'B', 'H'], ['C']], [['A'], ['D','E']], [['B', 'G', 'H'], ['F']], [['F'], ['A', 'D','H']], [['B', 'H'], ['G','E']]]
     
 #     print(minimal_cover(T))
 #     print(minimal_cover(T_2))
     print(ThreeNF_Decomp(Attribute_list_1,T_1))
     print(ThreeNF_Decomp(Attribute_list_2,T_2))
     print(ThreeNF_Decomp(Attribute_list_3,T_3))
+    print(ThreeNF_Decomp(Attribute_list_4,T_4))
 # T = [[['A'],['B']],[['B'],['C']]]
