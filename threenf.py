@@ -26,8 +26,7 @@ def get_super_key(FD,Attribute_list):
         result = helper.computeClosure(Element[0],split_Fundalmental)
         if((sorted(result) == Attribute_list)):
             Super_keys.append(Element[0])
-            return Super_keys
-    return False
+    return Super_keys
 
 #This is where we check if our FD list contains our original super_key 
 def check_if_super_key_in_FD(FD,super_key):
@@ -158,7 +157,7 @@ def ThreeNF_Decomp(Attribute_list, FD):
         Relation.append((Get_all_Attributes(i),i))
      
     #Now this is step 4 where we check if theres a super key or not inside
-    if(Original_superkey == False):
+    if(Original_superkey == []):
         size = 0
         Super_key_list = []
         new_super_key = create_super_key(U_sets, Attribute_list,size,Super_key_list)
