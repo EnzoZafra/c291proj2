@@ -20,7 +20,7 @@ def computeClosure(attribute_list, combined_fds):
 def getMultipleFDs(connection, list_names):
     combinedFDs = []
     for name in list_names:
-        fd = controller.getFunctionalDependencies(connection, main.regexTableName(name))
+        fd = controller.getFunctionalDependencies(connection, name)
         for item in fd:
             combinedFDs.append(main.splitProperties(item))
     return combinedFDs
@@ -28,14 +28,14 @@ def getMultipleFDs(connection, list_names):
 # Checks if two lists of functional dependencies are equal.
 def checkEqual(fd1, fd2):
     for fd in fd1:
-        if (not fdTest(fd, fd2)):
+        if (not entailscheck(fd, fd2)):
             return False
     for fd in fd2:
-        if (not fdTest(fd, fd1)):
+        if (not entailscheck(fd, fd1)):
             return False
     return True
 
-def fdTest(memberCandidate, list_of_fds):
+def entailscheck(memberCandidate, list_of_fds):
     lhsClosure = computeClosure(memberCandidate[0],
             list_of_fds);
     return set(memberCandidate[1]).issubset(lhsClosure)
@@ -88,7 +88,7 @@ def namestolist(names):
     return outputlist
 
 def checknamesindatabase(connection, names):
-    getnamesquery = """SELECT name FROM SQLITE_MASTER  where name like 'Input_FDs_%'"""
+    getnamesquery = """SELECT name FROM SQLITE_MASTER  where name like 'Input_FDs_%' or name like 'Output_FDs_%'"""
     results = connection.executeQuery(getnamesquery)
     singlecolumn = getSingleColumn("name", results, True)
     for name in names:

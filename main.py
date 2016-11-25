@@ -82,12 +82,12 @@ def printTables(indexedtables):
 
 def getSchemaInformation(connection, selectedname):
     name = regexTableName(selectedname)
-    functionaldependencies = sql.getFunctionalDependencies(connection, "FDs_" + name)
+    functionaldependencies = sql.getFunctionalDependencies(connection, "Input_FDs_" + name)
     attributes = sql.getAttributes(connection, name)
     return attributes, functionaldependencies
 
 def regexTableName(tablename):
-    match = re.search("Input_(.*)", tablename)
+    match = re.search("(?:Input_|Output_)(.*)", tablename)
     name = match.group(1)
     return name
 
